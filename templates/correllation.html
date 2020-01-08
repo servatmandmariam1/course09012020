@@ -1,0 +1,66 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+<div style="text-align: center; font-size: 2em" class="table-responsive">
+    <table class="table">
+        <form class="form-inline" method="POST" action="{{ url_for('corellation') }}">
+          <div class="form-group">
+              <div class="starter-template">
+                    <h1>Your individual dish</h1>
+                    <p class="lead"> to look for some dish fill data about yourself </p>
+                </div>
+               <a href="/fill_personal_data" title="new data button">
+                    <button type="button" class="btn btn-success" name="btn_new_dish">GO</button>
+                </a>
+          </div>
+            {% if personal_data_obj%}
+                <div class="card" style="width: 18rem; margin-left:640px;">
+                  <ul class="list-group list-group-flush">
+                      <li class="list-group-item"> Age: {{ personal_data_obj["age"] }}</li>
+                      <li class="list-group-item"> Weight: {{ personal_data_obj["weight"] }}</li>
+                      <li class="list-group-item">Height: {{ personal_data_obj["height"] }}</li>
+                  </ul>
+                </div>
+            <div class="card">
+              <div class="card-header">
+                Dear, {{current_user}}
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">Your norm of calories amount is {{output_result}} </h5>
+                <p class="card-text">Our special neuron system calculated it for you with aquracy of {{pearson_res}} </p>
+                    <a href="#" class="badge badge-light">Dishes that fit you</a>
+              </div>
+            </div>
+                <div class ="row">
+       {% for dish in allDishes %}
+                    {% if (dish.calories_amount< output_result)  %}:
+                        <div class="col-md-4 card">
+                <h2> {{ dish.dishname }}</h2>
+                {% for ingridient in choosen_ingridients %}
+                    <span > {{ ingridient }}</span>
+                {% endfor %}
+                <p>{{ dish.calories_amount }}</p>
+                <p>{{ dish.type }}</p>
+                <p><a class="btn btn-secondary" href="#" role="button"> Author: {{ dish.author }}</a>
+                 {% if admin %}:
+                    <p><a href="/delete_dish_user?name={{dish.dishname}}"
+                           title="delete button">
+                            <button type="button" class="btn btn-danger" name="btn_delete_dish"
+                                    data-user_id="{{dish.dishname}}">Delete
+                            </button>
+                        </a></p>
+                 {% endif %}:
+            </div>
+                    {%endif%}
+        {% endfor %}
+    </div>
+
+            {%endif%}
+        </form>
+
+    </table>
+</div>
+{% endblock %}
+</body>
+</html>

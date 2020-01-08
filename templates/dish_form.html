@@ -1,0 +1,80 @@
+{% extends "index.html" %}
+{% block content %}
+<div class="col-md-6 mx-auto">
+    <div class="card rounded-0">
+
+        <div class="card-header">
+            <h3 class="mb-0">{{form_name}}</h3>
+        </div>
+        <div class="card-body">
+
+            <form class="form"  action = "/{{action}}" method = post >
+                {{ form.hidden_tag() }}
+                <div class="form-group">
+                    {{ form.dishname.label }}
+                    {{ form.dishname(class_="form-control") }}
+
+                    {% if form.dishname.errors%}
+                    <div class="alert alert-danger" role="alert">
+                        {% for message in form.dishname.errors %}
+                        <div>{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                    {%endif%}
+                </div>
+                <div class="form-group">
+                       <p>{{ form.ingridients.label }}</p>
+                    <select multiple id="mymultiselect" name="select_ingridient">
+                        {% for ingridient in allIngridients%}
+                            <option value={{ingridient.ingridient}}>{{ingridient.ingridient}}</option>
+                        {% endfor %}
+                    </select>
+
+                    </select>
+
+                </div>
+                <div class="form-group">
+                    {{ form.receipt.label }}
+                    {{ form.receipt(class_="form-control") }}
+
+                    {% if form.dishname.errors%}
+                    <div class="alert alert-danger" role="alert">
+                        {% for message in form.receipt.errors %}
+                        <div>{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                    {%endif%}
+                </div>
+
+                <div class="form-group">
+                    {{ form.calories_amount.label }}
+                    {{ form.calories_amount(class_="form-control") }}
+
+                    {% if form.calories_amount.errors%}
+                    <div class="alert alert-danger" role="alert">
+                        {% for message in form.calories_amount.errors %}
+                        <div>{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                    {%endif%}
+                </div>
+                <div class="form-group">
+                    {{ form.type.label }}
+                    <br>
+                    <select name = "type_select" id="type">
+                        {% for type in allTypes %}
+                            <option value="{{ type.typename }}"> {{type.typename}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                {{ form.submit(class_="btn btn-success") }}
+            </form>
+        </div>
+    </div>
+</div>
+
+</div>
+
+
+
+{% endblock %}

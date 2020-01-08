@@ -1,0 +1,5 @@
+host = 'ec2-184-73-192-251.compute-1.amazonaws.com'
+database = 'dfsu99iunqtplk'
+username = 'kxvnkesljheevd'
+password = '5b533e8118d717cf102ceb847a07fc778347cb3ccf3bd1b138e0c57a0daa9e94'
+DATABASE_URL = 'postgres://kxvnkesljheevd:5b533e8118d717cf102ceb847a07fc778347cb3ccf3bd1b138e0c57a0daa9e94@ec2-184-73-192-251.compute-1.amazonaws.com:5432/dfsu99iunqtplk'

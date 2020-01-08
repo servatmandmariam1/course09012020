@@ -1,0 +1,52 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Dish name</th>
+            <th scope="col"> Author </th>
+            <th scope="col"> Type </th>
+            <th scope="col">Calories amount</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for dish in allDishes%}
+         {% if dish.author == current_user%}
+            <tr>
+                <td> {{dish.dishname}}</td>
+                <td> {{dish.author}}</td>
+                <td> {{dish.receipt}}</td>
+                <td> {{dish.type}}</td>
+                <td> {{dish.calories_amount}}</td>
+                <td>
+                    <a href="/edit_dish?name={{dish.dishname}}"
+                       title="edit button">
+                        <button type="button" class="btn btn-warning" name="btn_edit_dish"
+                                data-user_id="{{dish.dishname}}">Edit
+                        </button>
+                    </a>
+                    <a href="/delete_dish?name={{dish.dishname}}"
+                       title="delete button">
+                        <button type="button" class="btn btn-danger" name="btn_delete_dish"
+                                data-user_id="{{dish.dishname}}">Delete
+                        </button>
+                    </a>
+                </td>
+            </tr>
+        {%endif%}
+        {% endfor %}
+        <tr>
+            <td>
+                <a href="/new_dish" title="new dish button">
+                    <button type="button" class="btn btn-success" name="btn_new_dish">New dish</button>
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

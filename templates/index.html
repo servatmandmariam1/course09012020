@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Workshop</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="mystyle.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <script src="{{ url_for('static', filename='js/jquery-3.4.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.4/css/bootstrap.min.css" integrity="2hfp1SzUoho7/TsGGGDaFdsuuDL0LX2hnUp6VkX3CUQ2K4K+xjboZdsXyp4oUHZj" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.4/js/bootstrap.min.js" integrity="VjEeINv9OSwtWFLAtmc4JCtEJXXBub00gtSnszmspDLCtC0I4z4nqz7rEFbIZLLU" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<nav class="navbar navbar-light" style="background-color: #e3f2fd;" >
+
+    <div class="navbar-header">
+        {% if current_user == None %}
+            <a class="navbar-brand" href = "\"> Read mode </a>
+        {% else %}
+            <a class="navbar-brand" href="{{ url_for('all_dishes') }}"> You: {{current_user}} </a>
+        {% endif %}
+    </div>
+
+
+    <ul class="list-group list-group-horizontal" style=" width:90%; display:flex; justify-content: right; font-size: 1em">
+        {% if current_user == None %}
+            <li class="list-group-item"><a class="nav-link" href="{{ url_for('login') }}">Login</a></li>
+            <li class="list-group-item"><a class="nav-link" href="{{ url_for('signup') }}">SignUp</a></li>
+        {% else %}
+            <li class="list-group-item"><a class="nav-link" href="/correllation"> Choose your dish</a></li>
+            <li class="list-group-item"><a class="nav-link" href="{{ url_for('new_dish') }}"> Add new dish</a></li>
+            <li class="list-group-item"><a class="nav-link" href="/mydishes"> My dishes</a></li>
+            {% if admin %}
+                <li class="list-group-item"><a class="nav-link" href="{{ url_for('all_users') }}">All Users</a></li>
+            {% endif %}
+            <li class="list-group-item"><a class="nav-link" href="{{ url_for('logout') }}">Log Out</a></li>
+
+        {% endif %}
+
+
+    </ul>
+
+</nav>
+{% block content %}
+    <br>
+    <h1 style="text-align: center; font-size: 2em"> </h1>
+    <ul class="nav justify-content-center">
+        {% for type in allTypes %}
+            <li class="nav-item">
+                <a class="nav-link active" href="/filtered_dishes?name={{type.typename}}"> {{type.typename}}</a>
+            </li>
+        {% endfor %}
+    </ul>
+    <div class ="row">
+       {% for dish in allDishes %}
+            <div class="col-md-4 card">
+                <h2> {{ dish.dishname }}</h2>
+                {% for ingridient in choosen_ingridients %}
+                    <span > {{ ingridient }}</span>
+                {% endfor %}
+                <p>Калорійність: {{ dish.calories_amount }}</p>
+                <p>Тип страви: {{ dish.type }}</p>
+                <p><a class="btn btn-secondary" href="#" role="button"> Author: {{ dish.author }}</a>
+                 {% if admin %}
+                    <a href="/delete_dish_user?name={{dish.dishname}}"
+                           title="delete button">
+                            <button type="button" class="btn btn-danger" name="btn_delete_dish"
+                                    data-user_id="{{dish.dishname}}">Delete
+                            </button>
+                        </a>
+                 {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+</body>
+</html>
